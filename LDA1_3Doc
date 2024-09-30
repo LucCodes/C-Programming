@@ -1,0 +1,30 @@
+# LDA1_3.cpp Documentation
+
+## Overview
+This program calculates the monthly payment, total amount paid back, and interest paid for a loan based on user inputs for the loan amount, annual interest rate, and number of monthly payments.
+
+## Libraries
+- `<iostream>`: For input and output operations.
+- `<iomanip>`: For setting the precision and formatting the output.
+- `<cmath>`: For mathematical operations, specifically `pow`.
+
+## Variables
+- `loanAmount` (double): The amount of the loan.
+- `annualInterestRate` (double): The annual interest rate in decimal form.
+- `numberOfPayments` (int): The number of monthly payments to be made.
+- `monthlyInterestRate` (double): The monthly interest rate.
+- `monthlyPayment` (double): The monthly payment amount, calculated using the loan payment formula.
+- `totalAmountPaid` (double): The total amount paid back over.
+- `interestPaid` (double): The total interest paid over.
+
+## Input
+The program prompts the user to enter the loan amount, annual interest rate, and number of monthly payments.
+
+## Output
+The program outputs the following, formatted to two decimal places:
+- Loan amount
+- Monthly interest rate
+- Number of payments
+- Monthly payment
+- Total amount paid back
+- Interest paid

@@ -1,0 +1,46 @@
+# LDA1_2.cpp Documentation
+
+## Overview
+This program calculates the amount of ingredients needed to bake a specified number of cookies. The recipe is based on a standard recipe for 48 cookies.
+
+## Constants
+- `sugarPerCookie` (double): The amount of sugar needed per cookie, calculated as `1.5 / 48` cups.
+- `butterPerCookie` (double): The amount of butter needed per cookie, calculated as `1.0 / 48` cups.
+- `flourPerCookie` (double): The amount of flour needed per cookie, calculated as `2.75 / 48` cups.
+
+## Variables
+- `numberOfCookies` (int): The number of cookies the user wants to bake.
+- `sugarNeeded` (double): The total amount of sugar needed, calculated as `sugarPerCookie * numberOfCookies`.
+- `butterNeeded` (double): The total amount of butter needed, calculated as `butterPerCookie * numberOfCookies`.
+- `flourNeeded` (double): The total amount of flour needed, calculated as `flourPerCookie * numberOfCookies`.
+
+## Input
+The program prompts the user to enter the number of cookies they want to bake.
+
+## Output
+The program outputs the amount of sugar, butter, and flour needed to bake the specified number of cookies.
+
+## Code
+```cpp
+#include <iostream>
+// (Chapter 3) Ingredients Adjuster
+int main () {
+    const double sugarPerCookie = 1.5 / 48;
+    const double butterPerCookie = 1.0 / 48;
+    const double flourPerCookie = 2.75 / 48;
+
+    int numberOfCookies;
+    std::cout << "How many cookies do you want to bake? ";
+    std::cin >> numberOfCookies;
+
+    double sugarNeeded = sugarPerCookie * numberOfCookies;
+    double butterNeeded = butterPerCookie * numberOfCookies;
+    double flourNeeded = flourPerCookie * numberOfCookies;
+
+    std::cout
+        << "You need " << sugarNeeded << " cups of sugar, "
+        << butterNeeded << " cups of butter, and "
+        << flourNeeded << " cups of flour." << std::endl;
+
+    return 0;
+}
