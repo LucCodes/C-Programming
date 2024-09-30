@@ -1,0 +1,19 @@
+# LDA1_1.cpp Documentation
+
+## Overview
+This program calculates the amount of paint required to paint two sides of the wooden fence with two coats on each side. The paint coverage is should be340.0 square feet per gallon.
+
+## Constants
+- `coveragePerGallon` (double): The coverage of the paint in square feet per gallon.
+- `fenceHeight` (double): The height of the fence in feet.
+- `fenceLength` (double): The length of the fence in feet.
+- `numberOfSides` (int): The number of sides of the fence to be painted.
+- `numberOfCoats` (int): The number of coats of paint to be applied.
+
+## Variables
+- `total_area` (double): The total area to be painted, calculated as `fenceHeight * fenceLength * numberOfSides * numberOfCoats`.
+- `gallons_needed` (double): The number of gallons of paint needed, calculated as `total_area / coveragePerGallon`.
+
+## Output
+The program outputs the number of gallons of paint needed to paint the fence.
+
