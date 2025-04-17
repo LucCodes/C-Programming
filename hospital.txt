@@ -1,7 +1,0 @@
-***************************
-Hospital Billing Statement
-***************************
-Lab & Services  $ 0.00
-Medication      $ 0.00
-Total charges   $ 0.00
-***************************
