@@ -1,0 +1,60 @@
+# LDA3_1.cpp Documentation
+
+## Program: LDA3_1.cpp
+
+## Input:
+- note all inputs must be non-negative
+- Patient Type (inpatient/outpatient)
+- Service Charges (double)
+- Medication Charges (double)
+- For Inpatients:
+  * Number of Days (integer)
+  * Daily Room Rate (double)
+
+Output:
+- Calculated total charges
+- Generated hospital.txt file containing:
+  * Formatted billing header
+  * Itemized charges
+  * Total amount due
+
+Processing:
+1. Get and validate patient type selection
+2. Collect and validate all charge inputs using validateData function
+3. Calculate total charges using appropriate patientCharges function
+4. Generate and write formatted bill to hospital.txt
+5. Display confirmation of file creation
+
+Note: The actual input/output data chart will be maintained separately during testing.
+*******************************************************************************/
+
+Program Details
+- Handles both inpatient and outpatient billing
+- Validates all input data
+- Generates a formatted billing statement
+- Saves billing information to a file
+
+Functions
+
+1. validateData(double value, string message)
+- **Purpose**: Ensures that input values are not negative
+- **Parameters**:
+  - value: The number to validate
+  - message: Prompt message if re-entry is needed
+- **Returns**: A validated non-negative value
+
+2. patientCharges (Inpatient Version)
+- **Parameters**:
+  - days: Number of days in hospital
+  - rate: Daily room rate
+  - services: Cost of lab fees and services
+  - meds: Medication charges
+- **Returns**: Total charges for inpatient stay
+
+3. patientCharges (Outpatient Version)
+- **Parameters**:
+  - services: Cost of lab fees and services
+  - meds: Medication charges
+- **Returns**: Total charges for outpatient visit
+
+
