@@ -1,0 +1,46 @@
+# LDA3_2.cpp Documentation
+
+## Program: LDA3_2.cpp (Rock Paper Scissors Game)
+
+## input:
+- user's choice (1-4):
+  * 1: Rock
+  * 2: Paper
+  * 3: Scissors
+  * 4: Quit
+
+
+## functions:
+
+1. displayMenu()
+- **Purpose**: shows the game menu options
+- **Parameters**: none
+- **Returns**: none
+
+2. getUserChoice()
+- **Purpose**: gets and validates user input
+- **Parameters**: none
+- **Returns**: integer (1-4) representing user's choice
+
+3. getComputerChoice()
+- **Purpose**: generates computer's move
+- **Parameters**: none
+- **Returns**: integer (1-3) representing computer's choice
+
+4. choiceToString(int choice)
+- **Purpose**: converts numeric choice to text
+- **Parameters**:
+  - choice: integer representing the selection (1-3)
+- **Returns**: string ("Rock", "Paper", or "Scissors")
+
+5. determineWinner(int userChoice, int computerChoice)
+- **Purpose**: determines and announces game result
+- **Parameters**:
+  - userChoice: player's selection (1-3)
+  - computerChoice: computer's selection (1-3)
+- **Returns**: none
+
+6. main()
+- **Purpose**: controls game flow
+- **Parameters**: none
+- **Returns**: integer (0 for successful execution)

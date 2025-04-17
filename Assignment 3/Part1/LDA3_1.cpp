@@ -4,6 +4,8 @@
 #include <string>  
 using namespace std;  
 
+// done in around 1 hour cuz its fun why not
+
 // validate that input is not negative  
 double validateData(double value, string message) {  
     // ask for input until a non-negative value is entered  

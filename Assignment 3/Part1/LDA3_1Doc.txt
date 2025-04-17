@@ -1,60 +1,52 @@
 # LDA3_1.cpp Documentation
 
-## Program: LDA3_1.cpp
+## program: LDA3_1.cpp
+## if you wonder why it's all in lowercase, it's my version of a signature and i'm used to doing it. i do it in comments as well. 
 
-## Input:
+## input:
 - note all inputs must be non-negative
-- Patient Type (inpatient/outpatient)
-- Service Charges (double)
-- Medication Charges (double)
-- For Inpatients:
-  * Number of Days (integer)
-  * Daily Room Rate (double)
+- patient type (inpatient/outpatient)
+- service charges (double)
+- medication charges (double)
+- for inpatients:
+  * number of days (integer)
+  * daily room rate (double)
 
-Output:
-- Calculated total charges
-- Generated hospital.txt file containing:
-  * Formatted billing header
-  * Itemized charges
-  * Total amount due
+## output:
+- calculated total charges
+- generated hospital.txt file containing:
+  * formatted billing header
+  * itemized charges
+  * total amount due
 
-Processing:
-1. Get and validate patient type selection
-2. Collect and validate all charge inputs using validateData function
-3. Calculate total charges using appropriate patientCharges function
-4. Generate and write formatted bill to hospital.txt
-5. Display confirmation of file creation
+## processing
+1. get and validate patient type selection
+2. collect and validate all charge inputs using validateData function
+3. calculate total charges using appropriate patientCharges function
+4. generate and write formatted bill to hospital.txt
+5. display confirmation of file creation
 
-Note: The actual input/output data chart will be maintained separately during testing.
-*******************************************************************************/
-
-Program Details
-- Handles both inpatient and outpatient billing
-- Validates all input data
-- Generates a formatted billing statement
-- Saves billing information to a file
-
-Functions
+## functions
 
 1. validateData(double value, string message)
-- **Purpose**: Ensures that input values are not negative
+- **Purpose**: ensures that input values are not negative
 - **Parameters**:
-  - value: The number to validate
-  - message: Prompt message if re-entry is needed
-- **Returns**: A validated non-negative value
+  - value: the number to validate
+  - message: prompt message if re-entry is needed
+- **Returns**: a validated non-negative value
 
 2. patientCharges (Inpatient Version)
 - **Parameters**:
-  - days: Number of days in hospital
-  - rate: Daily room rate
-  - services: Cost of lab fees and services
-  - meds: Medication charges
-- **Returns**: Total charges for inpatient stay
+  - days: number of days in hospital
+  - rate: daily room rate
+  - services: cost of lab fees and services
+  - meds: medication charges
+- **Returns**: total charges for inpatient stay
 
 3. patientCharges (Outpatient Version)
 - **Parameters**:
-  - services: Cost of lab fees and services
-  - meds: Medication charges
+  - services: cost of lab fees and services
+  - meds: medication charges
 - **Returns**: Total charges for outpatient visit
 
 
