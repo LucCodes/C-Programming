@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// this was painful
+
 // constants
 const int STUDENTS = 5;
 const int SCORES = 4;
@@ -27,7 +29,7 @@ int main() {
     // get student data
     getStudentData(names, testScores);
     
-    // calculate averages, grades, and determine dropped scores
+    // calculate averages, grades, and dropped scores
     calculateResults(testScores, averages, grades, droppedScores);
     
     // display the results
@@ -60,7 +62,7 @@ void getStudentData(string names[], double testScores[][SCORES]) {
     }
 }
 
-// calculate averages, grades, and determine dropped scores
+// calculate averages, grades, and dropped scores
 void calculateResults(double testScores[][SCORES], double averages[], char grades[], double droppedScores[]) {
     for (int i = 0; i < STUDENTS; i++) {
         // find lowest score for this student
@@ -71,8 +73,7 @@ void calculateResults(double testScores[][SCORES], double averages[], char grade
             }
         }
         
-        // store the dropped score
-        droppedScores[i] = lowest;
+        droppedScores[i] = lowest; // store the dropped score
         
         // calculate average excluding the lowest score
         double sum = 0;
@@ -87,7 +88,7 @@ void calculateResults(double testScores[][SCORES], double averages[], char grade
     }
 }
 
-// determine the letter grade based on the average score
+// determine letter grade based on average
 char determineGrade(double average) {
     if (average >= 90) {
         return 'A';

@@ -103,7 +103,7 @@ int main() {
             break;
         }
         
-        // determine the winner (display the computer's choice)
+        // determine the winner
         determineWinner(userChoice, computerChoice);
         
         cout << endl;

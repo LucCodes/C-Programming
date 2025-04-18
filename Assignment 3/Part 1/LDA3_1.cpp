@@ -8,8 +8,7 @@ using namespace std;
 
 // validate that input is not negative  
 double validateData(double value, string message) {  
-    // ask for input until a non-negative value is entered  
-    while (value < 0) {  
+    while (value < 0) {  // ask for input until a non-negative value is entered  
         cout << "Error! Value cannot be negative." << endl;  
         cout << message;  
         cin >> value;  
@@ -49,7 +48,6 @@ int main() {
     // service charges  
     cout << "Lab fees and other service charges: $";  
     cin >> serviceCharges;  
-    // validate service charges  
     serviceCharges = validateData(serviceCharges, "Lab fees and other service charges: $");  
     
     // medication charges  
@@ -60,24 +58,21 @@ int main() {
     
     // if inpatient, get additional information  
     if (patientType == 1) {  
-        // number of days  
-        cout << "Number of days in the hospital: ";  
-        cin >> days;  
-        // validate days (convert to double for validation function)  
-        double daysAsDouble = static_cast<double>(days);  
+        cout << "Number of days in the hospital: ";  // number of days  
+        cin >> days;    
+        double daysAsDouble = static_cast<double>(days); // validate days (convert to double for validation function)
         daysAsDouble = validateData(daysAsDouble, "Number of days in the hospital: ");  
         days = static_cast<int>(daysAsDouble);  
         
         // daily rate  
         cout << "Daily room rate: $";  
         cin >> dailyRate;  
-        // validate daily rate  
-        dailyRate = validateData(dailyRate, "Daily room rate: $");  
+        dailyRate = validateData(dailyRate, "Daily room rate: $"); // validate daily rate  
         
-        // calculate total charges using inpatient function  
+        // calculate charges using inpatient function  
         totalCharges = patientCharges(days, dailyRate, serviceCharges, medicationCharges);  
     } else {  
-        // calculate total charges using outpatient function  
+        // calculate charges using outpatient function  
         totalCharges = patientCharges(serviceCharges, medicationCharges);  
     }  
     
@@ -86,9 +81,9 @@ int main() {
     outputFile.open("hospital.txt");  
     
     // check if file opened successfully  
-    if (outputFile.is_open()) {  
-        // set up formatting for dollar amounts  
-        outputFile << fixed << setprecision(2);  
+    if (outputFile.is_open()) {   
+
+        outputFile << fixed << setprecision(2);  // set up formatting for dollar amounts  
         
         // write header to file  
         outputFile << "****************************" << endl;  
@@ -110,10 +105,10 @@ int main() {
         // close the file  
         outputFile.close();  
         
-        // inform user that the report has been created  
+        // show user that the report has been created  
         cout << "The billing report has been written to the hospital.txt file." << endl;  
-    } else {  
-        // show error message if file couldn't be opened  
+    } else {  // dumb but happened once
+        // show error message if file can't be opened  
         cout << "Error: Could not open the file for writing." << endl;  
     }  
     
