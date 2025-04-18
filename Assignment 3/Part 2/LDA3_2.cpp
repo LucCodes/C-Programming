@@ -4,9 +4,9 @@
 using namespace std;
 
 // i made the computer slightly annoying to go against, haha
-// didn't take long, determineWinner is tedious
+// didn't take long, determineWinner was tedious
 
-// function to display the game menu
+// display the game menu
 void displayMenu() {
     cout << "Game Menu" << endl;
     cout << "--------" << endl;
@@ -16,7 +16,7 @@ void displayMenu() {
     cout << "4) Quit" << endl;
 }
 
-// function to get the user choice
+// get the user choice
 int getUserChoice() {
     int choice;
     bool validInput = false;
@@ -35,13 +35,13 @@ int getUserChoice() {
     return choice;
 }
 
-// function to generate the computer's choice
+// generate the computer's choice
 int getComputerChoice() {
     // random number between 1 and 3
     return (rand() % 3) + 1;
 }
 
-// function to convert choice number to string
+// convert choice number to string
 string choiceToString(int choice) {
     switch (choice) {
         case 1: return "Rock";
@@ -51,7 +51,7 @@ string choiceToString(int choice) {
     }
 }
 
-// function to determine the winner
+// determine the winner
 void determineWinner(int userChoice, int computerChoice) {
     cout << "You selected: " << choiceToString(userChoice) << endl;
     cout << "Computer selected: " << choiceToString(computerChoice) << endl;
@@ -91,19 +91,19 @@ int main() {
     int userChoice;
     
     do {
-        // generate the computer's choice at the beginning (but don't display it yet)
+        // generate the computer's choice at the beginning (don't display it yet)
         int computerChoice = getComputerChoice();
         
         displayMenu();
         userChoice = getUserChoice();
         
-        // exit the game if the user chooses to quit
+        // exit the game if the user quits
         if (userChoice == 4) {
             cout << "If I won, thanks for playing! If not, ALT + F4." << endl;
             break;
         }
         
-        // determine the winner (this will also display the computer's choice)
+        // determine the winner (display the computer's choice)
         determineWinner(userChoice, computerChoice);
         
         cout << endl;

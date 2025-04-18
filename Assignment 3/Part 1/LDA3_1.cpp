@@ -18,7 +18,7 @@ double validateData(double value, string message) {
 }  
 
 // calculate charges for inpatient  
-double patientCharges(int days, double rate, double services, double meds) {  
+double patientCharges(int days, double rate, double services,  meds) {  
     double roomCharges = days * rate;  // calculate room charges first  
     double total = roomCharges + services + meds;  // add all charges together and return the total  
     return total;  
