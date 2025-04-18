@@ -2,6 +2,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -9,19 +10,19 @@ using namespace std;
 const int STUDENTS = 5;
 const int SCORES = 4;
 
-// function prototypes
+// functions 
 void getStudentData(string names[], double testScores[][SCORES]);
 void calculateResults(double testScores[][SCORES], double averages[], char grades[], double droppedScores[]);
 char determineGrade(double average);
 void displayResults(string names[], double averages[], char grades[], double droppedScores[]);
 
 int main() {
-    // Arrays as specified in the requirements
-    string names[STUDENTS];        // Students' names
-    char grades[STUDENTS];         // The letter grades
-    double averages[STUDENTS];     // The average scores
-    double testScores[STUDENTS][SCORES]; // Students' test scores
-    double droppedScores[STUDENTS]; // Scores that were dropped
+    // arrays as specified in the requirements
+    string names[STUDENTS];        // student names
+    char grades[STUDENTS];         // letter grades
+    double averages[STUDENTS];     // average scores
+    double testScores[STUDENTS][SCORES]; // test scores
+    double droppedScores[STUDENTS]; // dropped scores
     
     // get student data
     getStudentData(names, testScores);
@@ -35,8 +36,9 @@ int main() {
     return 0;
 }
 
-// function to get student names and test scores
+// get student names and test scores
 void getStudentData(string names[], double testScores[][SCORES]) {
+    // input validation
     for (int i = 0; i < STUDENTS; i++) {
         cout << "Enter the name of student " << (i + 1) << ": ";
         getline(cin, names[i]);
@@ -46,22 +48,22 @@ void getStudentData(string names[], double testScores[][SCORES]) {
                 cout << "Enter test score " << (j + 1) << " for " << names[i] << ": ";
                 cin >> testScores[i][j];
                 
-                // input validation
+                
                 if (testScores[i][j] < 0 || testScores[i][j] > 100) {
-                    cout << "Error: Score must be between 0 and 100. Please try again." << endl;
+                    cout << "Error: Score must be between 0 and 100" << endl;
                 }
             } while (testScores[i][j] < 0 || testScores[i][j] > 100);
         }
         
-        // clear the input buffer
-        cin.ignore();
+        // fix input buffer before and after reading scores
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
 // calculate averages, grades, and determine dropped scores
 void calculateResults(double testScores[][SCORES], double averages[], char grades[], double droppedScores[]) {
     for (int i = 0; i < STUDENTS; i++) {
-        // find the lowest score for this student
+        // find lowest score for this student
         double lowest = testScores[i][0];
         for (int j = 1; j < SCORES; j++) {
             if (testScores[i][j] < lowest) {
@@ -72,15 +74,15 @@ void calculateResults(double testScores[][SCORES], double averages[], char grade
         // store the dropped score
         droppedScores[i] = lowest;
         
-        // calculate the average excluding the lowest score
+        // calculate average excluding the lowest score
         double sum = 0;
         for (int j = 0; j < SCORES; j++) {
             sum += testScores[i][j];
         }
-        sum -= lowest; // Subtract the lowest score
-        averages[i] = sum / (SCORES - 1); // Divide by number of scores minus 1
+        sum -= lowest; 
+        averages[i] = sum / (SCORES - 1); 
         
-        // determine the letter grade
+        // determine letter grade
         grades[i] = determineGrade(averages[i]);
     }
 }
@@ -108,8 +110,8 @@ void displayResults(string names[], double averages[], char grades[], double dro
          << setw(15) << "Average Score" 
          << "Grade" << endl;
     cout << string(50, '-') << endl;
-    
-    for (int i = 0; i < STUDENTS; i++) {
+
+    for (int i = 0; i < STUDENTS; i++) { // display results for each student, i hate iomanip
         cout << left << setw(15) << names[i] 
              << fixed << setprecision(2) << setw(15) << droppedScores[i] 
              << setw(15) << averages[i] 

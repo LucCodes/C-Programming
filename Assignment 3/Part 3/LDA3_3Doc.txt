@@ -1,0 +1,75 @@
+# LDA3_3.cpp Documentation
+
+## program: LDA3_3.cpp (student grade calculator)
+
+## input:
+- student names (string)
+- test scores (4 per student)
+- test scores must be between 0 and 100
+
+## output:
+- formatted table displaying:
+  * student names
+  * lowest dropped score
+  * average score (excluding lowest score)
+  * letter grade
+
+## processing
+1. getStudentData()
+   - collects student names and test scores
+   - validates test scores to be between 0-100
+   - uses getline() for name input to handle spaces
+
+2. calculateResults()
+   - calculates each student's average score
+   - determines lowest score to drop
+   - calculates new average excluding lowest score
+   - assigns letter grade based on average
+
+3. displayResults()
+   - formats and displays all student information
+   - uses setw() for aligned columns
+   - displays grades as letter grades (A-F)
+
+## functions
+
+1. getStudentData(string names[], double testScores[][SCORES])
+- **Purpose**: collects student data
+- **Parameters**:
+  - names: array to store student names
+  - testScores: 2D array to store test scores
+- **Returns**: none (modifies arrays)
+
+2. calculateResults(double testScores[][SCORES], double averages[], char grades[], double droppedScores[])
+- **Purpose**: calculates student results
+- **Parameters**:
+  - testScores: input test scores
+  - averages: array to store calculated averages
+  - grades: array to store letter grades
+  - droppedScores: array to store lowest scores
+- **Returns**: none (modifies arrays)
+
+3. determineGrade(double average)
+- **Purpose**: converts numeric average to letter grade
+- **Parameters**:
+  - average: student's average score
+- **Returns**: char representing letter grade (A-F)
+
+4. displayResults(string names[], double averages[], char grades[], double droppedScores[])
+- **Purpose**: displays formatted results
+- **Parameters**:
+  - names: student names
+  - averages: calculated averages
+  - grades: letter grades
+  - droppedScores: lowest scores
+- **Returns**: none (outputs to console)
+
+## constants
+- STUDENTS: 5 (number of students)
+- SCORES: 4 (number of test scores per student)
+
+## notes
+- program uses iomanip for formatted output
+- includes input validation for test scores
+- calculates averages excluding lowest score
+- uses arrays to store and process data
