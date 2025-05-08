@@ -3,16 +3,15 @@
 - **Programmer Name:** Lucas Dias
 - **File Name:** `TheaterFinal` 
 - **Summary:** The program simulates a movie theatre ticket system. It allows users to view seating charts, check seat prices, update prices, request tickets, and view a sales report. Seat prices are stored and loaded from an external file. There's an excessive amount of pointers used, and it's pretty much there for the extra points. Normally, I'd use them, but not to this extent. Document might be overkill but it was useful through and through. 
-- **Program Purpose:** To manage theatre seating and ticket sales.
 - **Most Challenging Aspect:**
-  One of the challenging aspects was correctly implementing and consistently using pointers for accessing and changing the 2D `seatingChart` array and the `seatPrices` array. Ensuring that all array accesses were correctly dereferencing pointers (e.g., `*(*(seatingChart + i) + j)` for 2D arrays, and `*(seatPrices + i)` for 1D arrays) required a lot of debugging to avoid errors. This was overcome by thoroughly understanding pointer operations in C++ and testing each  access method.
-- **Time Spent on Project:** Around a week, wasn't too hard but I spaced the time spent on it a lot, and made way too many pointers but oh well.
+  One of the challenging aspects was correctly implementing and consistently using pointers for accessing and changing the 2D `seatingChart` array and the `seatPrices` array. Ensuring that all array accesses were correctly dereferencing pointers (e.g., `*(*(seatingChart + i) + j)` for 2D arrays, and `*(seatPrices + i)` for 1D arrays) required a lot of debugging to avoid errors. This was overcome by thoroughly understanding pointer operations in C++ and testing each access method.
+- **Time Spent on Project:** Around a week, wasn't too hard but I spaced the time spent on it a lot, and had fun with way too many pointers but oh well.
 - **Date Created:** 05/01/2025
 - **Revision History:**
   - 05/01/2025: Initial program creation, set up logic for seating, prices, and sales. Started documentation, made it work with GitHub w/ an old format I had.
   - 05/04/2025: Added functions for seat prices and sales.
   - 05/05/2025: Added functions for seating chart and ticket requests.
-  - 05/06/2025: Added functions for file operations.
+  - 05/06/2025: Added functions for files.
   - 05/08/2025: Final update to documentation.
 
 ---
