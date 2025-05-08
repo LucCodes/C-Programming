@@ -1,0 +1,230 @@
+//************************************************************************************************//
+// File Header
+//************************************************************************************************//
+
+// Programmer Name: Lucas Dias
+// File Name: TheaterFinal (compiled from TheaterFinal source file)
+// Summary: This program simulates a movie theatre ticketing system. It allows users to
+// view seating charts, check seat prices, update prices, request tickets, and view
+// a sales report. Seat prices are stored and loaded from an external file.
+// Program Purpose: To manage theatre seating and ticket sales.
+//
+// Most Challenging Aspect:
+// One of the challenging aspects was correctly implementing and consistently using
+// pointer arithmetic for accessing and manipulating the 2D seatingChart array and 1D
+// seatPrices array. Ensuring that all array accesses were correctly dereferencing
+// pointers (e.g., *(*(seatingChart + i) + j) for 2D arrays, and *(seatPrices + i)
+// for 1D arrays) required careful attention to detail to avoid errors and ensure
+// memory safety. This was overcome by thoroughly understanding pointer operations
+// in C++ and testing each array access method.
+//
+// Time Spent on Project: 3 days
+// Date Created: 05/01/2025
+// Revision History:
+// - 05/01/2025: Initial program creation, core logic for seating, prices, and sales.
+// - 05/08/2025: Updated menu display text for clarity ("Lucas's Super Theatre").
+//
+// Input/Output Data Chart:
+//
+// Main Menu Interaction:
+// Input: User enters a number (1-6) corresponding to a menu option.
+// Output: Program performs the action or displays the requested information.
+//   1. Display Seating Chart:
+//      Input: None from user (menu choice 1).
+//      Output: Displays a grid representing seats (# for available, * for taken).
+//   2. Display Seating Prices:
+//      Input: None from user (menu choice 2).
+//      Output: Lists the price for each row of seats.
+//   3. Update Seating Prices:
+//      Input: Row number (1-15 or 0 to finish), New price for the selected row.
+//      Output: Confirmation message, updated prices displayed, prices saved to "SeatPrices.txt".
+//   4. Request Tickets:
+//      Input: Number of tickets, Row number for each ticket, Seat number for each ticket.
+//      Output: Confirmation of purchase, total cost, updated seating chart, "SeatPrices.txt" may be read.
+//   5. Print Sales Report:
+//      Input: None from user (menu choice 5).
+//      Output: Total number of seats sold, total number of seats available, total ticket sales amount.
+//   6. Exit:
+//      Input: Menu choice 6.
+//      Output: Exit message.
+//
+// File I/O:
+// Input File: "SeatPrices.txt"
+//   - Read at startup to load seat prices for each row.
+//   - If not found, default prices are used, and the file is created.
+// Output File: "SeatPrices.txt"
+//   - Written to when seat prices are updated by the user.
+//   - Contains one price per line, corresponding to each row.
+//
+// Validation:
+// Input: User inputs for menu choices, row numbers, seat numbers, prices.
+// Output: Error messages for invalid input (e.g., out of range, non-numeric).
+
+//************************************************************************************************//
+// Function Documentation
+//************************************************************************************************//
+
+// Function Name: main
+// Purpose: Main entry point of the program. Initializes data, handles the main menu loop,
+//          and calls other functions based on user input.
+// Required Input: None (implicitly, command line arguments if configured, but not used here).
+// Provided Output: Integer (0 for successful execution). Program interaction via console.
+
+// Function Name: displayMenu
+// Purpose: Displays the main menu options to the user.
+// Required Input: None.
+// Provided Output: Prints menu text to the console.
+
+// Function Name: initializeSeating
+// Purpose: Initializes all seats in the seating chart to available ('#').
+// Required Input:
+//   - seatingChart: A 2D char array (passed as char (*)[COLS]) representing the theatre seats.
+// Provided Output: Modifies the seatingChart array in place.
+
+// Function Name: loadPricesFromFile
+// Purpose: Loads seat prices for each row from the "SeatPrices.txt" file.
+// Required Input:
+//   - seatPrices: A 1D double array (passed as double*) to store the loaded prices.
+// Provided Output: Boolean (true if prices loaded successfully, false otherwise). Modifies seatPrices array.
+
+// Function Name: savePricesToFile
+// Purpose: Saves the current seat prices for each row to the "SeatPrices.txt" file.
+// Required Input:
+//   - seatPrices: A 1D const double array (passed as const double*) containing the prices to save.
+// Provided Output: Prints confirmation or error message to console. Creates/overwrites "SeatPrices.txt".
+
+// Function Name: createDefaultPriceFile
+// Purpose: Creates "SeatPrices.txt" with predefined default prices if the file doesn't exist
+//          or cannot be loaded.
+// Required Input:
+//   - seatPrices: A 1D double array (passed as double*) to be filled with default prices.
+// Provided Output: Modifies the seatPrices array. Calls savePricesToFile to write the defaults.
+
+// Function Name: displaySeatingChart
+// Purpose: Displays the current state of the seating chart (available and taken seats).
+// Required Input:
+//   - seatingChart: A 2D const char array (passed as const char (*)[COLS]) representing the theatre seats.
+// Provided Output: Prints the seating chart to the console.
+
+// Function Name: displaySeatPrices
+// Purpose: Displays the price for each row of seats.
+// Required Input:
+//   - seatPrices: A 1D const double array (passed as const double*) containing the prices for each row.
+// Provided Output: Prints the list of seat prices to the console.
+
+// Function Name: updateSeatPrices
+// Purpose: Allows the user to update the price for a specific row and saves the changes.
+// Required Input:
+//   - seatPrices: A 1D double array (passed as double*) containing current seat prices.
+//                 User will also input row number and new price via console.
+// Provided Output: Modifies the seatPrices array. Calls savePricesToFile. Prints prompts and confirmations.
+
+// Function Name: requestTickets
+// Purpose: Allows a user to request and purchase a specified number of tickets,
+//          updating the seating chart and total sales.
+// Required Input:
+//   - seatingChart: A 2D char array (passed as char (*)[COLS]) to be updated.
+//   - seatPrices: A 1D const double array (passed as const double*) to calculate ticket cost.
+//   - totalSales: A reference to a double (double&) to accumulate total sales.
+//                 User will also input number of tickets, row, and seat numbers via console.
+// Provided Output: Modifies seatingChart and totalSales. Prints prompts, costs, and confirmations.
+
+// Function Name: printSalesReport
+// Purpose: Displays a sales report including seats sold, seats available, and total revenue.
+// Required Input:
+//   - seatingChart: A 2D const char array (passed as const char (*)[COLS]) to count sold/available seats.
+//   - totalSales: A double representing the total revenue from ticket sales.
+// Provided Output: Prints the sales report to the console.
+
+// Function Name: getValidatedIntInput
+// Purpose: Prompts the user for an integer input and validates it to be within a specified range.
+// Required Input:
+//   - minVal: The minimum acceptable integer value.
+//   - maxVal: The maximum acceptable integer value.
+// Provided Output: Integer (the validated user input). Prints prompts and error messages for invalid input.
+
+// Function Name: getValidatedSeatInput
+// Purpose: Prompts the user for an integer input specifically for seat/row numbers and validates it.
+//          Ensures input is a positive integer up to maxVal.
+// Required Input:
+//   - maxVal: The maximum acceptable integer value (e.g., number of rows or columns).
+// Provided Output: Integer (the validated user input). Prints prompts and error messages for invalid input.
+
+//************************************************************************************************//
+// Code Sections
+//************************************************************************************************//
+
+// Section: Constants and Global Declarations (Lines 6-9)
+// Purpose: Defines constants for array dimensions (ROWS, COLS) and the filename for seat prices
+//          (PRICE_FILENAME). This centralizes configuration values for easy modification.
+
+// Section: Function Prototypes (Lines 11-23)
+// Purpose: Declares all functions used in the program before their definitions. This allows
+//          functions to be called before they are fully defined in the source code, particularly
+//          useful for `main` calling other functions.
+
+// Section: main Function - Initialization (Lines 27-39)
+// Purpose: Declares local variables for the main function, including the seating chart,
+//          seat prices array, and total sales tracker. It then calls `initializeSeating`
+//          to set all seats to available and `loadPricesFromFile` to get prices, creating
+//          a default price file if necessary.
+
+// Section: main Function - Main Operation Loop (Lines 42-82)
+// Purpose: This `do-while` loop constitutes the main interaction flow of the program.
+//          It repeatedly displays the menu, gets the user's choice, and uses a `switch`
+//          statement to call the appropriate function. The loop continues until the user
+//          selects the option to exit (choice 6). It also includes logic to pause and
+//          clear the screen (platform-dependent) for better user experience.
+
+// Section: initializeSeating Function - Nested Loops (Lines 103-107)
+// Purpose: Uses nested `for` loops to iterate through each element (seat) of the
+//          2D `seatingChart` array. Pointer arithmetic (*(*(seatingChart + i) + j)) is used
+//          to access and set each seat to '#', indicating it's available.
+
+// Section: loadPricesFromFile Function - File Reading and Error Handling (Lines 111-127)
+// Purpose: Attempts to open and read from `PRICE_FILENAME`. A `for` loop reads prices for each row.
+//          It includes error checking for file opening and for individual read operations,
+//          setting a default price and clearing stream errors if a read fails.
+
+// Section: savePricesToFile Function - File Writing (Lines 130-143)
+// Purpose: Opens `PRICE_FILENAME` for writing. It iterates through the `seatPrices` array
+//          using a `for` loop and writes each price (formatted to two decimal places) to a new line
+//          in the file using pointer arithmetic.
+
+// Section: createDefaultPriceFile Function - Default Data Initialization (Lines 146-158)
+// Purpose: Defines an array of default prices. A `for` loop copies these default prices into
+//          the `seatPrices` array passed to the function. It then calls `savePricesToFile`
+//          to persist these defaults.
+
+// Section: displaySeatingChart Function - Chart Formatting (Lines 162-178)
+// Purpose: Prints the seating chart. Nested `for` loops are used. The outer loop iterates
+//          through rows, and the inner loop iterates through columns (seats in a row).
+//          `std::setw` is used for formatting row numbers. Header numbers for seats are
+//          printed to help users identify seat columns.
+
+// Section: updateSeatPrices Function - Interactive Price Update (Lines 191-216 in full file, partial in previous view)
+// Purpose: Allows interactive updating of seat prices. It first displays current prices.
+//          A loop (implicitly, though not fully shown in previous snippet, structure typically involves
+//          repeated prompting) asks the user for a row to update. Input is validated.
+//          If a valid row is chosen, the new price is taken, `seatPrices` array is updated,
+//          and `savePricesToFile` is called.
+
+// Section: requestTickets Function - Ticket Purchasing Logic (Lines 218-288 in full file, partial in previous view)
+// Purpose: Handles the ticket purchasing process. It asks for the number of tickets.
+//          Then, for each ticket, it prompts for row and seat, validates the choice
+//          (checking if the seat is available and within bounds). If valid, the seat is
+//          marked as taken ('*'), and the ticket price is added to a running total for that transaction
+//          and to the overall `totalSales`.
+
+// Section: printSalesReport Function - Report Calculation and Display (Lines 290-308 in full file, partial in previous view)
+// Purpose: Calculates and displays sales statistics. It iterates through the `seatingChart`
+//          to count sold ('*') and available ('#') seats. Then it prints these counts along
+//          with the `totalSales` figure.
+
+// Section: getValidatedIntInput / getValidatedSeatInput - Input Validation Loops (Lines 310-343 in full file, partial in previous view)
+// Purpose: These functions ensure robust user input. They use `while` loops to repeatedly
+//          prompt the user until a valid integer within the specified range (or a positive integer for seats)
+//          is entered. They handle non-numeric input by clearing `std::cin` error flags and
+//          ignoring the invalid input.
+
+//************************************************************************************************//

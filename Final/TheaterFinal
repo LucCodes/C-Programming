@@ -1,0 +1,337 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+#include <limits> // required for numeric_limits
+
+// constants for array dimensions
+const int ROWS = 15;
+const int COLS = 30;
+const std::string PRICE_FILENAME = "SeatPrices.txt";
+
+// function prototypes
+void displayMenu();
+void initializeSeating(char (*seatingChart)[COLS]);
+bool loadPricesFromFile(double *seatPrices);
+void savePricesToFile(const double *seatPrices);
+void createDefaultPriceFile(double *seatPrices);
+void displaySeatingChart(const char (*seatingChart)[COLS]);
+void displaySeatPrices(const double *seatPrices);
+void updateSeatPrices(double *seatPrices);
+void requestTickets(char (*seatingChart)[COLS], const double *seatPrices, double &totalSales);
+void printSalesReport(const char (*seatingChart)[COLS], double totalSales);
+int getValidatedIntInput(int minVal, int maxVal);
+int getValidatedSeatInput(int maxVal);
+
+
+int main() {
+    char seatingChart[ROWS][COLS];
+    double seatPrices[ROWS];
+    double totalSales = 0.0;
+    int choice;
+
+    // initialize seating chart
+    initializeSeating(seatingChart);
+
+    // load seat prices from file or create default file
+    if (!loadPricesFromFile(seatPrices)) {
+        std::cout << "SeatPrices.txt not found. Creating file with default prices.\n";
+        createDefaultPriceFile(seatPrices);
+    }
+
+
+    // main operation loop
+    do {
+        displayMenu();
+        std::cout << "Enter your choice (1-6): ";
+        choice = getValidatedIntInput(1, 6);
+
+        switch (choice) {
+            case 1:
+                displaySeatingChart(seatingChart);
+                break;
+            case 2:
+                displaySeatPrices(seatPrices);
+                break;
+            case 3:
+                updateSeatPrices(seatPrices);
+                break;
+            case 4:
+                requestTickets(seatingChart, seatPrices, totalSales);
+                break;
+            case 5:
+                printSalesReport(seatingChart, totalSales);
+                break;
+            case 6:
+                std::cout << "Exiting the program. Goodbye!\n";
+                break;
+            default: // should not happen due to validation, but good practice
+                std::cout << "Invalid choice. Please try again.\n";
+        }
+        if (choice != 6) {
+            std::cout << "\nPress Enter to continue...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear the buffer before pausing
+            std::cin.get(); // wait for user to press Enter
+             // clear screen or add spacing for better readability between menu displays (optional)
+             #ifdef _WIN32
+                system("cls");
+             #else
+                system("clear");
+             #endif
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
+
+// --- function implementations ---
+
+// displays the main menu
+void displayMenu() {
+    std::cout << "\n--- Lucas's Super Theatre ---\n";
+    std::cout << "1. Display the Seating Chart\n";
+    std::cout << "2. Display Seating Prices\n";
+    std::cout << "3. Update Seating Prices\n";
+    std::cout << "4. Request Tickets\n";
+    std::cout << "5. Print Sales Report\n";
+    std::cout << "6. Exit the Program\n";
+    std::cout << "------------------------\n";
+}
+
+// initializes all seats to available ('#') using pointer notation
+void initializeSeating(char (*seatingChart)[COLS]) {
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            *(*(seatingChart + i) + j) = '#'; // pointer access
+        }
+    }
+}
+
+// loads seat prices from the file
+bool loadPricesFromFile(double *seatPrices) {
+    std::ifstream priceFile(PRICE_FILENAME);
+    if (!priceFile) {
+        return false; // file doesn't exist or cannot be opened
+    }
+
+    for (int i = 0; i < ROWS; ++i) {
+        if (!(priceFile >> *(seatPrices + i))) { // pointer access for reading
+             std::cerr << "Error reading price for row " << (i + 1) << " from file. Using 0.0\n";
+             *(seatPrices + i) = 0.0; // default if read fails
+             priceFile.clear(); // clear error flags
+             priceFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // skip rest of line
+        }
+    }
+    priceFile.close();
+    return true;
+}
+
+// saves current seat prices to the file
+void savePricesToFile(const double *seatPrices) {
+    std::ofstream priceFile(PRICE_FILENAME);
+    if (!priceFile) {
+        std::cerr << "Error: Could not open " << PRICE_FILENAME << " for writing.\n";
+        return;
+    }
+
+    priceFile << std::fixed << std::setprecision(2);
+    for (int i = 0; i < ROWS; ++i) {
+        priceFile << *(seatPrices + i) << std::endl; // pointer access for writing
+    }
+    priceFile.close();
+    std::cout << "Seat prices successfully saved to " << PRICE_FILENAME << std::endl;
+}
+
+// creates the SeatPrices.txt file with default values if it doesn't exist
+void createDefaultPriceFile(double *seatPrices) {
+    // provided default prices
+    double defaultPrices[ROWS] = {
+        30.0, 30.0, 30.0, 30.0, 30.0,
+        20.0, 20.0, 20.0, 20.0, 12.0,
+        12.0, 12.0, 12.0, 8.0, 8.0
+    };
+
+    for (int i = 0; i < ROWS; ++i) {
+         *(seatPrices + i) = defaultPrices[i]; // pointer access
+    }
+    savePricesToFile(seatPrices); // save these defaults to the file
+}
+
+
+// displays the seating chart
+void displaySeatingChart(const char (*seatingChart)[COLS]) {
+    std::cout << "\n                  Seats\n";
+    std::cout << "       "; // initial spacing for seat numbers
+    for (int j = 1; j <= COLS; ++j) {
+        std::cout << (j % 10); // print last digit of seat number
+    }
+    std::cout << std::endl;
+
+    for (int i = 0; i < ROWS; ++i) {
+        std::cout << "Row " << std::setw(3) << (i + 1) << "  ";
+        for (int j = 0; j < COLS; ++j) {
+            std::cout << *(*(seatingChart + i) + j); // pointer access
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "\n# = Available, * = Taken\n";
+}
+
+// displays the price for each row
+void displaySeatPrices(const double *seatPrices) {
+    std::cout << "\n--- Seat Prices by Row ---\n";
+    std::cout << std::fixed << std::setprecision(2);
+    for (int i = 0; i < ROWS; ++i) {
+        std::cout << "Row " << std::setw(3) << (i + 1) << ": $" << *(seatPrices + i) << std::endl; // pointer access
+    }
+    std::cout << "--------------------------\n";
+}
+
+// allows the user to update seat prices and saves them
+void updateSeatPrices(double *seatPrices) {
+    int row;
+    double newPrice;
+
+    std::cout << "\n--- Update Seat Prices ---\n";
+    displaySeatPrices(seatPrices); // show current prices first
+
+    std::cout << "Enter the row number to update (1-" << ROWS << ") or 0 to finish: ";
+    row = getValidatedIntInput(0, ROWS);
+
+    while (row != 0) {
+        std::cout << "Enter the new price for Row " << row << ": $";
+        // input validation for price (must be non-negative)
+        while (!(std::cin >> newPrice) || newPrice < 0) {
+             std::cout << "Invalid price. Please enter a non-negative number: $";
+             std::cin.clear();
+             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // consume newline
+
+         *(seatPrices + row - 1) = newPrice; // pointer access (adjusting for 0-based index)
+        std::cout << "Price for Row " << row << " updated.\n";
+
+        std::cout << "\nEnter the next row number to update (1-" << ROWS << ") or 0 to finish: ";
+        row = getValidatedIntInput(0, ROWS);
+    }
+
+    savePricesToFile(seatPrices); // save changes to the file
+    std::cout << "Finished updating prices.\n";
+}
+
+
+// handles the ticket purchase process
+void requestTickets(char (*seatingChart)[COLS], const double *seatPrices, double &totalSales) {
+    int numSeats, row, startSeat;
+    double ticketCost = 0.0;
+    bool seatsAvailable = true;
+    char confirm;
+
+    std::cout << "\n--- Request Tickets ---\n";
+    displaySeatingChart(seatingChart); // show chart before purchase
+
+    std::cout << "Enter the row number (1-" << ROWS << "): ";
+    row = getValidatedIntInput(1, ROWS);
+
+    std::cout << "Enter the starting seat number (1-" << COLS << "): ";
+    startSeat = getValidatedSeatInput(COLS); // use dedicated seat validation
+
+    std::cout << "Enter the number of seats to purchase: ";
+    numSeats = getValidatedIntInput(1, COLS);
+
+
+    // validate if the requested range is within the row bounds
+    if (startSeat + numSeats - 1 > COLS) {
+        std::cout << "Error: Request exceeds the number of seats in the row.\n";
+        return;
+    }
+
+    // check availability and calculate cost using pointer notation
+    std::cout << "Checking availability for Row " << row << ", Seats " << startSeat << "-" << startSeat + numSeats - 1 << "...\n";
+    for (int j = startSeat - 1; j < startSeat + numSeats - 1; ++j) {
+        if (*(*(seatingChart + row - 1) + j) == '*') { // pointer access (adjust for 0-based index)
+            seatsAvailable = false;
+            std::cout << "Error: Seat " << (j + 1) << " in Row " << row << " is already taken.\n";
+            break; // no need to check further in this request
+        }
+    }
+
+    if (seatsAvailable) {
+        ticketCost = numSeats * (*(seatPrices + row - 1)); // pointer access for price
+
+        std::cout << std::fixed << std::setprecision(2);
+        std::cout << "Seats are available!\n";
+        std::cout << "Total cost for " << numSeats << " tickets in Row " << row << ": $" << ticketCost << std::endl;
+        std::cout << "Do you wish to purchase these seats? (y/n): ";
+
+        // input validation for confirmation
+        while (!(std::cin >> confirm) || (tolower(confirm) != 'y' && tolower(confirm) != 'n')) {
+             std::cout << "Invalid input. Please enter 'y' or 'n': ";
+             std::cin.clear();
+             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // consume newline
+
+        if (tolower(confirm) == 'y') {
+            // mark seats as taken and update total sales
+            for (int j = startSeat - 1; j < startSeat + numSeats - 1; ++j) {
+                 *(*(seatingChart + row - 1) + j) = '*'; // pointer access
+            }
+            totalSales += ticketCost;
+            std::cout << "Purchase successful!\n";
+            displaySeatingChart(seatingChart); // show updated chart
+        } else {
+            std::cout << "Purchase cancelled.\n";
+        }
+    } else {
+        std::cout << "Ticket purchase failed due to unavailable seats.\n";
+    }
+}
+
+// prints the sales report
+void printSalesReport(const char (*seatingChart)[COLS], double totalSales) {
+    int seatsSold = 0;
+    int seatsAvailable = 0;
+
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            if (*(*(seatingChart + i) + j) == '*') { // pointer access
+                seatsSold++;
+            } else {
+                seatsAvailable++;
+            }
+        }
+    }
+
+    std::cout << "\n------ Sales Report ------\n";
+    std::cout << "Seats Sold:      " << seatsSold << std::endl;
+    std::cout << "Seats Available: " << seatsAvailable << std::endl;
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Total Revenue:   $" << totalSales << std::endl;
+    std::cout << "--------------------------\n";
+}
+
+// gets and validates integer input within a specified range
+int getValidatedIntInput(int minVal, int maxVal) {
+    int input;
+    while (!(std::cin >> input) || input < minVal || input > maxVal) {
+        std::cout << "Invalid input. Please enter a number between " << minVal << " and " << maxVal << ": ";
+        std::cin.clear(); // clear error flags
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
+    }
+     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // consume the trailing newline
+    return input;
+}
+
+// gets and validates seat number input (slightly different message)
+int getValidatedSeatInput(int maxVal) {
+     int input;
+    while (!(std::cin >> input) || input < 1 || input > maxVal) {
+        std::cout << "Invalid seat number. Please enter a number between 1 and " << maxVal << ": ";
+        std::cin.clear(); // clear error flags
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
+    }
+     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // consume the trailing newline
+    return input;
+}
