@@ -96,7 +96,7 @@ void displayMenu() {
     std::cout << "------------------------\n"; 
 }
 
-// initializes all seats to available ('#') w/ pointer notation (i want ALL extra points, lol. pointers make my life easier)
+// initializes all seats to available ('#') w/ pointer notation (i want ALL extra points, lol. pointers are gonna be used heavily thoughout this whole file)
 void initializeSeating(char (*seatingChart)[COLS]) {
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
